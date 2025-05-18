@@ -219,6 +219,9 @@ map.on("load", async () => {
   // Select SVG for visualization
   const svg = d3.select("#map").select("svg");
 
+  // First, make sure SVG allows pointer events on circles
+  svg.style("pointer-events", "none");
+
   // Create circles for each station
   const circles = svg
     .selectAll("circle")
@@ -230,12 +233,13 @@ map.on("load", async () => {
     .attr("stroke-width", 1.5)
     .attr("opacity", 0.85)
     .style("--departure-ratio", (d) => flowScale(d.flowRatio))
-    .each(function (d) {
-      // Add tooltip with station info
-      d3.select(this).append("title")
-        .text(`${d.NAME}: ${d.totalTraffic} total trips
-${d.departures} departures, ${d.arrivals} arrivals`);
-    });
+    .style("pointer-events", "all"); // Ensure circles can be interacted with
+
+  // Add titles for tooltips (properly)
+  circles.append("title").text(
+    (d) => `${d.NAME}: ${d.totalTraffic} total trips
+${d.departures} departures, ${d.arrivals} arrivals`
+  );
 
   // Function to update circle positions when map moves
   function updateCirclePositions() {
@@ -297,12 +301,13 @@ ${d.departures} departures, ${d.arrivals} arrivals`);
       .join("circle")
       .attr("r", (d) => radiusScale(d.totalTraffic))
       .style("--departure-ratio", (d) => flowScale(d.flowRatio))
-      .each(function (d) {
-        // Update tooltip
-        d3.select(this).select("title")
-          .text(`${d.NAME}: ${d.totalTraffic} total trips
-${d.departures} departures, ${d.arrivals} arrivals`);
-      });
+      .style("pointer-events", "all"); // Ensure circles maintain pointer events
+
+    // Update tooltips after join
+    circles.select("title").text(
+      (d) => `${d.NAME}: ${d.totalTraffic} total trips
+${d.departures} departures, ${d.arrivals} arrivals`
+    );
   }
 
   // Set up time slider event listener
