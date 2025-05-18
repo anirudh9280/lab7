@@ -2,8 +2,6 @@
 
 An interactive visualization of BlueBike station activity across Boston and Cambridge, showing traffic patterns at different times of the day.
 
-![Boston Bike Map Visualization Preview](https://raw.githubusercontent.com/suchitbhayani/bikewatching/main/assets/preview.png)
-
 ## Overview
 
 This project visualizes bike traffic data from the Boston area's BlueBikes bike-sharing system. It shows:
